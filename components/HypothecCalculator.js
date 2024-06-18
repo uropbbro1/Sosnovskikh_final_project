@@ -30,93 +30,97 @@ export default function HypothecCalculator({ route }) {
   }, [calculatedHypothecs]);
 
   function CalculateHypothec(){
-    //Для рассчетов используется следующая формула:
-    //A = S * r * s / (s - 1)
-    switch(hypothecType["label"]){
-      case "Новостройка": {
-        onChangeCalculatedHypothecs([]);
-        let monthlyPayment = 0;
-        const creditAmmount = propertyPrice - firstDeposite;
-        const term = mortgageTerm * 12;
-        const banksAndPrecents = [{bankName: "ВТБ", precent: 17.9}, {bankName: "Совкомбанк", precent: 10.99}, {bankName: "Банк ДОМ.РФ", precent: 17.7}, {bankName: "РНКБ", precent: 14.4}, {bankName: "ПСБ", precent: 16.9}, {bankName: "Росбанк", precent: 20.3}, {bankName: "Уралсиб", precent: 18.99}, {bankName: "Ак Барс Банк", precent: 17.5}, {bankName: "МТС Банк", precent: 17.7}];
-        let bankList = [];
-        for(let i = 0; i < banksAndPrecents.length; i++){
-          const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
-          let s = (1 + precentInMonth)**(term);
-          monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
-          bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
-          console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+    if(hypothecType["label"] === '' || propertyPrice === 0 || mortgageTerm === 0 ){
+      alert("Заполните все поля");
+    }else{
+      //Для рассчетов используется следующая формула:
+      //A = S * r * s / (s - 1)
+      switch(hypothecType["label"]){
+        case "Новостройка": {
+          onChangeCalculatedHypothecs([]);
+          let monthlyPayment = 0;
+          const creditAmmount = propertyPrice - firstDeposite;
+          const term = mortgageTerm * 12;
+          const banksAndPrecents = [{bankName: "ВТБ", precent: 17.9}, {bankName: "Совкомбанк", precent: 10.99}, {bankName: "Банк ДОМ.РФ", precent: 17.7}, {bankName: "РНКБ", precent: 14.4}, {bankName: "ПСБ", precent: 16.9}, {bankName: "Росбанк", precent: 20.3}, {bankName: "Уралсиб", precent: 18.99}, {bankName: "Ак Барс Банк", precent: 17.5}, {bankName: "МТС Банк", precent: 17.7}];
+          let bankList = [];
+          for(let i = 0; i < banksAndPrecents.length; i++){
+            const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
+            let s = (1 + precentInMonth)**(term);
+            monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
+            bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
+            console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+          }
+          onChangeCalculatedHypothecs(bankList);
+          return null;
         }
-        onChangeCalculatedHypothecs(bankList);
-        return null;
-      }
-      case "Семейная ипотека": {
-        onChangeCalculatedHypothecs([]);
-        let monthlyPayment = 0;
-        const creditAmmount = propertyPrice - firstDeposite;
-        const term = mortgageTerm * 12;
-        const banksAndPrecents = [{bankName: "ВТБ", precent: 6}, {bankName: "Альфа-Банк", precent: 6}, {bankName: "Банк ДОМ.РФ", precent: 6}, {bankName: "РНКБ", precent: 6}, {bankName: "ПСБ", precent: 5}, {bankName: "Росбанк", precent: 6}, {bankName: "Ак Барс Банк", precent: 6}, {bankName: "Россельхозбанк", precent: 5}, {bankName: "МТС Банк", precent: 5.8}];
-        let bankList = [];
-        for(let i = 0; i < banksAndPrecents.length; i++){
-          const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
-          let s = (1 + precentInMonth)**(term);
-          monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
-          bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
-          console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+        case "Семейная ипотека": {
+          onChangeCalculatedHypothecs([]);
+          let monthlyPayment = 0;
+          const creditAmmount = propertyPrice - firstDeposite;
+          const term = mortgageTerm * 12;
+          const banksAndPrecents = [{bankName: "ВТБ", precent: 6}, {bankName: "Альфа-Банк", precent: 6}, {bankName: "Банк ДОМ.РФ", precent: 6}, {bankName: "РНКБ", precent: 6}, {bankName: "ПСБ", precent: 5}, {bankName: "Росбанк", precent: 6}, {bankName: "Ак Барс Банк", precent: 6}, {bankName: "Россельхозбанк", precent: 5}, {bankName: "МТС Банк", precent: 5.8}];
+          let bankList = [];
+          for(let i = 0; i < banksAndPrecents.length; i++){
+            const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
+            let s = (1 + precentInMonth)**(term);
+            monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
+            bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
+            console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+          }
+          onChangeCalculatedHypothecs(bankList);
+          return null;
         }
-        onChangeCalculatedHypothecs(bankList);
-        return null;
-      }
-      case "Готовое жилье": {
-        onChangeCalculatedHypothecs([]);
-        let monthlyPayment = 0;
-        const creditAmmount = propertyPrice - firstDeposite;
-        const term = mortgageTerm * 12;
-        const banksAndPrecents = [{bankName: "Альфа-Банк", precent: 19.09}, {bankName: "Банк ДОМ.РФ", precent: 18.1}, {bankName: "Уралсиб", precent: 18.99}];
-        let bankList = [];
-        for(let i = 0; i < banksAndPrecents.length; i++){
-          const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
-          let s = (1 + precentInMonth)**(term);
-          monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
-          bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
-          console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+        case "Готовое жилье": {
+          onChangeCalculatedHypothecs([]);
+          let monthlyPayment = 0;
+          const creditAmmount = propertyPrice - firstDeposite;
+          const term = mortgageTerm * 12;
+          const banksAndPrecents = [{bankName: "Альфа-Банк", precent: 19.09}, {bankName: "Банк ДОМ.РФ", precent: 18.1}, {bankName: "Уралсиб", precent: 18.99}];
+          let bankList = [];
+          for(let i = 0; i < banksAndPrecents.length; i++){
+            const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
+            let s = (1 + precentInMonth)**(term);
+            monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
+            bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
+            console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+          }
+          onChangeCalculatedHypothecs(bankList);
+          return null;
         }
-        onChangeCalculatedHypothecs(bankList);
-        return null;
-      }
-      case "Вторичное жилье": {
-        onChangeCalculatedHypothecs([]);
-        let monthlyPayment = 0;
-        const creditAmmount = propertyPrice - firstDeposite;
-        const term = mortgageTerm * 12;
-        const banksAndPrecents = [{bankName: "ВТБ", precent: 17.9}, {bankName: "Банк ДОМ.РФ", precent: 18.1}, {bankName: "РНКБ", precent: 15.1}, {bankName: "Ак Барс Банк", precent: 17.5}, {bankName: "МТС Банк", precent: 17.7}];
-        let bankList = [];
-        for(let i = 0; i < banksAndPrecents.length; i++){
-          const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
-          let s = (1 + precentInMonth)**(term);
-          monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
-          bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
-          console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+        case "Вторичное жилье": {
+          onChangeCalculatedHypothecs([]);
+          let monthlyPayment = 0;
+          const creditAmmount = propertyPrice - firstDeposite;
+          const term = mortgageTerm * 12;
+          const banksAndPrecents = [{bankName: "ВТБ", precent: 17.9}, {bankName: "Банк ДОМ.РФ", precent: 18.1}, {bankName: "РНКБ", precent: 15.1}, {bankName: "Ак Барс Банк", precent: 17.5}, {bankName: "МТС Банк", precent: 17.7}];
+          let bankList = [];
+          for(let i = 0; i < banksAndPrecents.length; i++){
+            const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
+            let s = (1 + precentInMonth)**(term);
+            monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
+            bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
+            console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+          }
+          onChangeCalculatedHypothecs(bankList);
+          return null;
         }
-        onChangeCalculatedHypothecs(bankList);
-        return null;
-      }
-      case "Ипотека для IT-специалистов": {
-        onChangeCalculatedHypothecs([]);
-        let monthlyPayment = 0;
-        const creditAmmount = propertyPrice - firstDeposite;
-        const term = mortgageTerm * 12;
-        const banksAndPrecents = [{bankName: "Все банки", precent: 5}];
-        let bankList = [];
-        for(let i = 0; i < banksAndPrecents.length; i++){
-          const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
-          let s = (1 + precentInMonth)**(term);
-          monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
-          bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
-          console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+        case "Ипотека для IT-специалистов": {
+          onChangeCalculatedHypothecs([]);
+          let monthlyPayment = 0;
+          const creditAmmount = propertyPrice - firstDeposite;
+          const term = mortgageTerm * 12;
+          const banksAndPrecents = [{bankName: "Все банки", precent: 5}];
+          let bankList = [];
+          for(let i = 0; i < banksAndPrecents.length; i++){
+            const precentInMonth = banksAndPrecents[i]["precent"] / 12 / 100;
+            let s = (1 + precentInMonth)**(term);
+            monthlyPayment =  Math.ceil(creditAmmount * precentInMonth * s / (s - 1));
+            bankList.push({bankName: banksAndPrecents[i]["bankName"], precent: banksAndPrecents[i]["precent"], monthlyPayment: monthlyPayment});
+            console.log("платеж: ", monthlyPayment ,banksAndPrecents[i]["bankName"]);
+          }
+          onChangeCalculatedHypothecs(bankList);
+          return null;
         }
-        onChangeCalculatedHypothecs(bankList);
-        return null;
       }
     }
   }
