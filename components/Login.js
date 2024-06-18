@@ -21,21 +21,25 @@ export default function Login({navigation}) {
   }
   
 });
- const authorize = () => {
-    db.withTransactionAsync(async () => {
-      const result = await db.getFirstAsync('SELECT * from users WHERE username = ? AND pass = ?', login, password);
-      console.log(result);
-      if(result === null){
-        alert('неправильный пароль или имя пользователя')
-      }else{
-        console.log(result["id"], result["username"]);
-        navigation.navigate('HypothecCalculator', {
-          userId: `${result["id"]}`,
-          userName: result["username"],
-        });
-      }
-    });
- }
+  const authorize = () => {
+    if(login === '' || password === ''){
+      alert("Заполните все поля");
+    }else{
+      db.withTransactionAsync(async () => {
+        const result = await db.getFirstAsync('SELECT * from users WHERE username = ? AND pass = ?', login, password);
+        console.log(result);
+        if(result === null){
+          alert('неправильный пароль или имя пользователя')
+        }else{
+          console.log(result["id"], result["username"]);
+          navigation.navigate('HypothecCalculator', {
+            userId: `${result["id"]}`,
+            userName: result["username"],
+          });
+        }
+      });
+    }
+  }
 
   return (
     <View style={styles.container}>
