@@ -22,15 +22,19 @@ export default function Register({navigation}) {
 });
 
  const registerUser = () => {
-  let index = db.getFirstSync('SELECT COUNT(*) FROM users WHERE username = ?', login)
-  if(index["COUNT(*)"] === 0){
-  db.withTransactionAsync(async () => {
-  const result = await db.runAsync('INSERT INTO users (username, pass) VALUES (?, ?)', login, password);
-});
-navigation.navigate('Login');
+  if(login === '' || password === ''){
+    alert("Заполните все поля");
   }else{
-    alert("Этот логин уже занят.")
-  }
+    let index = db.getFirstSync('SELECT COUNT(*) FROM users WHERE username = ?', login)
+    if(index["COUNT(*)"] === 0){
+    db.withTransactionAsync(async () => {
+      const result = await db.runAsync('INSERT INTO users (username, pass) VALUES (?, ?)', login, password);
+    });
+    navigation.navigate('Login');
+    }else{
+      alert("Этот логин уже занят.")
+    }
+  } 
 }
   
   return (
