@@ -1,7 +1,6 @@
 import Register from './components/Register';
 import Login from './components/Login';
 import HypothecCalculator from './components/HypothecCalculator';
-import Favorite from './components/FavoriteHypothec';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
