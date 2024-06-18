@@ -26,11 +26,6 @@ export default function Navigate(){
           component={HypothecCalculator}
           options={{title: "Калькулятор", headerLeft: ()=> null}}
         />
-        <Stack.Screen
-          name="Favorite"
-          component={Favorite}
-          options={{title: "Избраное"}}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   )
